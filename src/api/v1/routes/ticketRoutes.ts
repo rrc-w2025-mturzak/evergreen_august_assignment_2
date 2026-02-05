@@ -1,13 +1,13 @@
 import express, { Router } from "express";
 
-const eventRouter: Router = express.Router();
+const ticketRouter: Router = express.Router();
 
-eventRouter.get("/health");
-eventRouter.get("/tickets");
-eventRouter.get("/tickets/:id");
-eventRouter.get("/tickets/:id/urgency");
-eventRouter.post("/tickets");
-eventRouter.put("/tickets/:id");
-eventRouter.delete("/tickets/:id");
+ticketRouter.get("/health");
+ticketRouter.get("/tickets");
+ticketRouter.get("/tickets/:id");
+ticketRouter.get("/tickets/:id/urgency");
+ticketRouter.post("/tickets");
+ticketRouter.put("/tickets/:id");
+ticketRouter.delete("/tickets/:id");
 
-export default eventRouter;
+export default ticketRouter;
