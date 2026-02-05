@@ -83,10 +83,13 @@ export const getAllTickets = () => {
     data: nodaysold
   };
 };
-;
 
 export const getOneTicket = (id: number) => {
-    return tickets.find(tickets => tickets.id === id);
+  const ticket = tickets.find(t => t.id === id);
+  if (!ticket) return null;
+
+  const { daysOld, ...rest } = ticket;
+  return rest;
 };
 
 export const createNewTicket = (id: number, 
