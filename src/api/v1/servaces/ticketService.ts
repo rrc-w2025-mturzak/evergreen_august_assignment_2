@@ -73,3 +73,7 @@ export const getAllTickets = () => {
         data: tickets
     }
 };
+
+export const getOneTicket = (id: number) => {
+    return tickets.find(tickets => tickets.id === id);
+};
