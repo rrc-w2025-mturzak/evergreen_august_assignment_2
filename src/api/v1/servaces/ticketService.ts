@@ -93,3 +93,18 @@ export const createNewTicket = (id: number,
   Status: ${status}`;
 };
 
+export const updateTicketById = (id: number, 
+    title: string, 
+    description: string, 
+    createdAt: string, 
+    priority: string, 
+    status: string): string => {
+  return `Updated Ticket:
+  Id: ${id}
+  Title: ${title}
+  Description: ${description}
+  Created: ${createdAt}
+  Priority: ${priority}
+  Status: ${status}`;
+};
+
