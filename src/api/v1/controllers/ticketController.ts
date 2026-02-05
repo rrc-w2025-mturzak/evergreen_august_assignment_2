@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
-import { getAllTickets, getOneTicket, createNewTicket, updateTicketById } from "../servaces/ticketService";
+import { getAllTickets, getOneTicket, createNewTicket, updateTicketById, deleteTicket} from "../servaces/ticketService";
 
 export const healthData = (req: Request, res: Response) => {
     res.status(HTTP_STATUS.OK).json({
@@ -106,4 +106,12 @@ export const updateTicket = (req: Request, res: Response) => {
     });
   }
 };
+
+export const deleteTicketById = (req: Request, res: Response) => {
+    let id = Number(req.params.id);
+    let result = deleteTicket(id);
+    res.status(HTTP_STATUS.OK).json(result);
+};
+
+
 

@@ -108,3 +108,6 @@ export const updateTicketById = (id: number,
   Status: ${status}`;
 };
 
+export const deleteTicket = (id: number): string => {
+    return `Deleted Ticket: ${id}`;
+};
