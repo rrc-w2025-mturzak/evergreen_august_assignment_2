@@ -5,6 +5,7 @@ export interface Ticket {
     createdAt: string;
     priority: string;
     status: string;
+    daysOld?: number;
 }
 
  export const tickets: Ticket[] = [
@@ -14,7 +15,8 @@ export interface Ticket {
         description: "Footer still shows 2024",
         createdAt: "2025-01-12T10:00:00.000Z",
         priority: "low",
-        status: "open"
+        status: "open",
+        daysOld: 3
 
     },
     { 
@@ -23,7 +25,8 @@ export interface Ticket {
         description: "Upload takes 30+ seconds",
         createdAt: "2025-01-13T10:00:00.000Z",
         priority: "medium",
-        status: "open"
+        status: "open",
+        daysOld: 2
     },    
     { 
         id: 3,
@@ -31,7 +34,8 @@ export interface Ticket {
         description: "Dashboard takes 10+ seconds to load",
         createdAt: "2025-01-09T10:00:00.000Z",
         priority: "medium",
-        status: "open"
+        status: "open",
+        daysOld: 6
     },    
     { 
         id: 4,
@@ -39,7 +43,8 @@ export interface Ticket {
         description: "Reset emails taking over 30 minutes",
         createdAt: "2025-01-10T10:00:00.000Z",
         priority: "high",
-        status: "open"
+        status: "open",
+        daysOld: 5
     },    
     { 
         id: 5,
@@ -47,7 +52,8 @@ export interface Ticket {
         description: "PDF export fails silently",
         createdAt: "2025-01-06T10:00:00.000Z",
         priority: "high",
-        status: "open"
+        status: "open",
+        daysOld: 9
     },    
     { 
         id: 6,
@@ -55,7 +61,8 @@ export interface Ticket {
         description: "Users report blank screen on login",
         createdAt: "2025-01-09T10:00:00.000Z",
         priority: "critical",
-        status: "open"
+        status: "open",
+        daysOld: 6
     },    
     { 
         id: 7,
@@ -63,16 +70,20 @@ export interface Ticket {
         description: "Dark mode doesn't persist after refresh",
         createdAt: "2025-01-05T10:00:00.000Z",
         priority: "medium",
-        status: "resolved"
+        status: "resolved",
+        daysOld: 10
     },
 ];
 
 export const getAllTickets = () => {
-    return {
-        count: tickets.length,
-        data: tickets
-    }
+  const nodaysold = tickets.map(({ daysOld, ...rest }) => rest);
+
+  return {
+    count: nodaysold.length,
+    data: nodaysold
+  };
 };
+;
 
 export const getOneTicket = (id: number) => {
     return tickets.find(tickets => tickets.id === id);
