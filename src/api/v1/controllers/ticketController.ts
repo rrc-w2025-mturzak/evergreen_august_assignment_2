@@ -67,11 +67,21 @@ export const updateTicket = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
-// export const deleteTicketById = (req: Request, res: Response) => {
-//     let id = Number(req.params.id);
-//     let result = deleteTicket(id);
-//     res.status(HTTP_STATUS.OK).json(result);
-// };
+export const deleteTicketById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const id: string = req.params.id;
 
+        await ticketService.deleteTicket(id);
+        res.status(HTTP_STATUS.OK).json({
+            message: "Item deleted successfully",
+        });
+    } catch (error: unknown) {
+        next(error);
+    }
+};
 
 

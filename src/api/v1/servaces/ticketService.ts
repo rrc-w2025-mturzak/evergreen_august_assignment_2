@@ -100,3 +100,13 @@ export const updateTicketById = async (
   return structuredClone(tickets[index]);
 };
 
+export const deleteTicket = async (id: string): Promise<void> => {
+    const index = tickets.findIndex(ticket => ticket.id === Number(id));
+    
+    if (index === -1) {
+        throw new Error(`Item with ID ${id} not found`);
+    }
+
+    tickets.splice(index, 1);
+};
+

@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { healthData, createTicket, getTicketById, updateTicket } from "../controllers/ticketController";
+import { healthData, createTicket, getTicketById, updateTicket, deleteTicketById } from "../controllers/ticketController";
 import { getAllTicket } from "../controllers/ticketController";
 
 const ticketRouter: Router = express.Router();
@@ -10,6 +10,6 @@ ticketRouter.get("/tickets/:id", getTicketById);
 // ticketRouter.get("/tickets/:id/urgency");
 ticketRouter.post("/tickets", createTicket);
 ticketRouter.put("/tickets/:id", updateTicket);
-// ticketRouter.delete("/tickets/:id", deleteTicketById);
+ticketRouter.delete("/tickets/:id", deleteTicketById);
 
 export default ticketRouter;
