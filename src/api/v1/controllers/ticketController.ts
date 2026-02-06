@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
-import { getAllTickets, createNewTicket, updateTicketById, deleteTicket} from "../servaces/ticketService";
+import { getAllTickets, getOneTicket, createNewTicket, updateTicketById, deleteTicket} from "../servaces/ticketService";
 
 export const healthData = (req: Request, res: Response) => {
     res.status(HTTP_STATUS.OK).json({
@@ -13,7 +13,23 @@ export const healthData = (req: Request, res: Response) => {
 
 export const getAllTicket = (req: Request, res: Response) => {
     let result = getAllTickets();
-    res.status(200).json({ message: "Tickets retrieved", ...result });
+    res.status(HTTP_STATUS.OK).json({ message: "Tickets retrieved", ...result });
+};
+
+export const getTicketById = (req: Request, res: Response) => {
+    let id = Number(req.params.id)
+
+    if (Number.isNaN(id)) {
+      res.status(HTTP_STATUS.BAD_REQUEST).json({message: `Invalid ticket ID: ${req.params.id}`});
+    }
+
+    let result = getOneTicket(id)
+
+    if (result === undefined) {
+      res.status(HTTP_STATUS.NOT_FOUND).json({message: `Ticket with ID ${id} not found`});
+    }
+    
+    res.status(HTTP_STATUS.OK).json(result);
 };
 
 // export const getTicketById = (req: Request, res: Response): void => {

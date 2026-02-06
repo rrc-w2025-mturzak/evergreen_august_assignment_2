@@ -71,13 +71,10 @@ export const getAllTickets = (): {} => {
     return {count: tickets.length, tickets: tickets};
 };
 
-// export const getOneTicket = (id: number) => {
-//   const ticket = tickets.find(t => t.id === id);
-//   if (!ticket) return null;
-
-//   const { daysOld, ...rest } = ticket;
-//   return rest;
-// };
+export const getOneTicket = (id: number): Ticket | undefined => {
+    let result = tickets.find(x => x.id == id)
+    return result;
+};
 
 export const createNewTicket = (id: number, 
     title: string, 
