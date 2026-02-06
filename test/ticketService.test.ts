@@ -65,3 +65,25 @@ describe("calculateUrgency", () => {
         expect(result?.urgencyLevel).toBe("High Urgency. Prioritize resolution.");
     });
 });
+
+describe("calculateUrgency", () => {
+    it("it should return Critical Urgency.", () => {
+        // Arrange
+        const ticket: Ticket = {
+            id: 7,
+            title: "test #4",
+            description: "Critical urgency",
+            createdAt: "2025-01-09T10:00:00.000Z",
+            priority: "critical",
+            status: "open"
+        }
+        // Act
+        const result = calculateUrgency(ticket);
+
+        // Assert
+        expect(result).not.toBeNull();
+        expect(result?.ticketAge).toBe(6);
+        expect(result?.urgencyScore).toBe(80);
+        expect(result?.urgencyLevel).toBe("Critical. Immediate attention required.");
+    });
+});
