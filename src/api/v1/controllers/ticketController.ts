@@ -88,11 +88,7 @@ export const updateTicket = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
-export const deleteTicketById = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-): Promise<void> => {
+export const deleteTicketById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const id: string = req.params.id;
 

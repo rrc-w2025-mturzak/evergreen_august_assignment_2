@@ -157,7 +157,7 @@ export function calculateUrgency(ticket: Ticket): any {
             urgencyLevel = "Moderate. Schedual for attention.";
             break;
 
-        case urgencyScore >= 25:
+        case urgencyScore > 0:
             urgencyLevel = "Low Urgency. Address when capacity allows.";
             break;
     }
