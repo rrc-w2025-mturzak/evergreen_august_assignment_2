@@ -79,59 +79,24 @@ export const getOneTicket = (id: number): Ticket | undefined => {
 export const createNewTicket = (newTicket: Ticket): Ticket => {
     tickets.push(newTicket)
     return newTicket
-}
-
-export const updateTicketById = (id: number, 
-    title: string, 
-    description: string, 
-    createdAt: string, 
-    priority: string, 
-    status: string): string => {
-  return `Updated Ticket:
-  Id: ${id}
-  Title: ${title}
-  Description: ${description}
-  Created: ${createdAt}
-  Priority: ${priority}
-  Status: ${status}`;
 };
 
-export const deleteTicket = (id: number): string => {
-    return `Deleted Ticket: ${id}`;
+export const updateTicketById = async (
+  id: string,
+  ticketData: Pick<Ticket, "id" | "description" >
+): Promise<Ticket> => {
+
+  const index = tickets.findIndex(item => item.id === Number(id));
+
+  if (index === -1) {
+    throw new Error(`Ticket with ID ${id} not found`);
+  }
+
+  tickets[index] = {
+    ...tickets[index],
+    ...ticketData,
+  };
+
+  return structuredClone(tickets[index]);
 };
 
-// export function calculateUrgency(ticket: Ticket): any {
-//     let id = ticket.id
-//     let title = ticket.title
-//     let createdAt = ticket.createdAt
-//     let priority = ticket.priority
-//     let status = ticket.status
-//     let ticketAge = ticket.daysOld
-//     let urgencyLevel;
-
-//     const urgencyScore = 
-
-//     switch (true) {
-//         case popularityScore >= 50:
-//             popularityTier = "Hot."
-//             break
-//         case popularityScore >= 30:
-//             popularityTier = "Popular."
-//             break
-//         case popularityScore >= 20:
-//             popularityTier = "Moderate."
-//             break
-//         case popularityScore >= 10:
-//             popularityTier = "Building."
-//             break
-//     }
-
-//     return {
-//         id,
-//         title,
-//         priority,
-//         status,
-//         createdAt,
-//         ticketAge
-//     };
-// }

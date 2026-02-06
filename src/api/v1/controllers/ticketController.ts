@@ -1,6 +1,7 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
-import { getAllTickets, getOneTicket, createNewTicket, updateTicketById, deleteTicket} from "../servaces/ticketService";
+import * as ticketService from "../servaces/ticketService";
+import { getAllTickets, getOneTicket, createNewTicket, Ticket} from "../servaces/ticketService";
 
 export const healthData = (req: Request, res: Response) => {
     res.status(HTTP_STATUS.OK).json({
@@ -38,41 +39,39 @@ export const createTicket = (req: Request, res: Response) => {
   res.status(HTTP_STATUS.OK).json(result);
 };
 
-export const updateTicket = (req: Request, res: Response) => {
-  try {
-    const { id, title, description, createdAt, priority, status } = req.body;
-    const allowedPriorities = ["low", "medium", "high", "critical"];
-    if (isNaN(id)) {
+export const updateTicket = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+
+        if (!req.body.id) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
-                message: `Invalid ticket ID: ${req.params.id}`
+                message: "Ticket id is required",
+            });
+        } else if (!req.body.description) {
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
+                message: "Ticket dscription is required",
             });
         }
-    if (!allowedPriorities.includes(priority)) {
-      throw new Error(
-        `Invalid priority '${priority}'. Allowed values: ${allowedPriorities.join(", ")}`
-      );
+        
+        const { id } = req.params;
+
+        const { description } = req.body;
+
+        const updatedItem: Ticket = await ticketService.updateTicketById(id, { id: Number(id), description });
+
+        res.status(HTTP_STATUS.OK).json({
+            message: "Item updated successfully",
+            data: updatedItem,
+        });
+    } catch (error: unknown) {
+        next(error);
     }
-    const result = updateTicketById(
-      id,
-      title,
-      description,
-      createdAt,
-      priority,
-      status
-    );
-    res.status(HTTP_STATUS.OK).send(result);
-  } catch (err: any) {
-    res.status(400).json({
-      error: err.message || "Something went wrong while creating the ticket"
-    });
-  }
 };
 
-export const deleteTicketById = (req: Request, res: Response) => {
-    let id = Number(req.params.id);
-    let result = deleteTicket(id);
-    res.status(HTTP_STATUS.OK).json(result);
-};
+// export const deleteTicketById = (req: Request, res: Response) => {
+//     let id = Number(req.params.id);
+//     let result = deleteTicket(id);
+//     res.status(HTTP_STATUS.OK).json(result);
+// };
 
 
 
