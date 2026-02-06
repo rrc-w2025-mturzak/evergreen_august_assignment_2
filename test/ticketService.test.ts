@@ -21,3 +21,25 @@ describe("calculateUrgency", () => {
         expect(result?.urgencyLevel).toBe("Low Urgency. Address when capacity allows.");
     });
 });
+
+describe("calculateUrgency", () => {
+    it("it should return Moderate", () => {
+        // Arrange
+        const ticket: Ticket = {
+            id: 2,
+            title: "Profile picture upload slow",
+            description: "Upload takes 30+ seconds",
+            createdAt: "2025-01-13T10:00:00.000Z",
+            priority: "medium",
+            status: "open"
+        }
+        // Act
+        const result = calculateUrgency(ticket);
+
+        // Assert
+        expect(result).not.toBeNull();
+        expect(result?.ticketAge).toBe(2);
+        expect(result?.urgencyScore).toBe(30);
+        expect(result?.urgencyLevel).toBe("Moderate. Schedual for attention.");
+    });
+});
