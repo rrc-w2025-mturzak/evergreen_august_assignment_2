@@ -76,9 +76,25 @@ export const getOneTicket = (id: number): Ticket | undefined => {
     return result;
 };
 
-export const createNewTicket = (newTicket: Ticket): Ticket => {
-    tickets.push(newTicket)
-    return newTicket
+export const createNewTicket = async (ticketData: {
+    id: number;
+    title: string;
+    description: string;
+    priority: string;
+    status: string;
+}): Promise<Ticket> => {
+    const newTicket: Ticket = {
+        id: ticketData.id,
+        title: ticketData.title,
+        description: ticketData.description,
+        createdAt: Date.now().toString(),
+        priority: ticketData.priority,
+        status: ticketData.status
+    };
+
+    tickets.push(newTicket);
+
+    return structuredClone(newTicket);
 };
 
 export const updateTicketById = async (
