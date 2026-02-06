@@ -76,20 +76,10 @@ export const getOneTicket = (id: number): Ticket | undefined => {
     return result;
 };
 
-export const createNewTicket = (id: number, 
-    title: string, 
-    description: string, 
-    createdAt: string, 
-    priority: string, 
-    status: string): string => {
-  return `Created a new Ticket:
-  Id: ${id}
-  Title: ${title}
-  Description: ${description}
-  Created: ${createdAt}
-  Priority: ${priority}
-  Status: ${status}`;
-};
+export const createNewTicket = (newTicket: Ticket): Ticket => {
+    tickets.push(newTicket)
+    return newTicket
+}
 
 export const updateTicketById = (id: number, 
     title: string, 
