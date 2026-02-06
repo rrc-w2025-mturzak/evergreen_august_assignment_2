@@ -1,12 +1,3 @@
-export interface Ticket {
-    id: number;
-    title: string;
-    description: string;
-    createdAt: string;
-    priority: string;
-    status: string;
-    daysOld?: number;
-}
 
  export const tickets: Ticket[] = [
     { 
@@ -15,8 +6,7 @@ export interface Ticket {
         description: "Footer still shows 2024",
         createdAt: "2025-01-12T10:00:00.000Z",
         priority: "low",
-        status: "open",
-        daysOld: 3
+        status: "open"
 
     },
     { 
@@ -25,8 +15,7 @@ export interface Ticket {
         description: "Upload takes 30+ seconds",
         createdAt: "2025-01-13T10:00:00.000Z",
         priority: "medium",
-        status: "open",
-        daysOld: 2
+        status: "open"
     },    
     { 
         id: 3,
@@ -34,8 +23,7 @@ export interface Ticket {
         description: "Dashboard takes 10+ seconds to load",
         createdAt: "2025-01-09T10:00:00.000Z",
         priority: "medium",
-        status: "open",
-        daysOld: 6
+        status: "open"
     },    
     { 
         id: 4,
@@ -43,8 +31,7 @@ export interface Ticket {
         description: "Reset emails taking over 30 minutes",
         createdAt: "2025-01-10T10:00:00.000Z",
         priority: "high",
-        status: "open",
-        daysOld: 5
+        status: "open"
     },    
     { 
         id: 5,
@@ -52,8 +39,7 @@ export interface Ticket {
         description: "PDF export fails silently",
         createdAt: "2025-01-06T10:00:00.000Z",
         priority: "high",
-        status: "open",
-        daysOld: 9
+        status: "open"
     },    
     { 
         id: 6,
@@ -61,8 +47,7 @@ export interface Ticket {
         description: "Users report blank screen on login",
         createdAt: "2025-01-09T10:00:00.000Z",
         priority: "critical",
-        status: "open",
-        daysOld: 6
+        status: "open"
     },    
     { 
         id: 7,
@@ -70,27 +55,29 @@ export interface Ticket {
         description: "Dark mode doesn't persist after refresh",
         createdAt: "2025-01-05T10:00:00.000Z",
         priority: "medium",
-        status: "resolved",
-        daysOld: 10
+        status: "resolved"
     },
 ];
 
-export const getAllTickets = () => {
-  const nodaysold = tickets.map(({ daysOld, ...rest }) => rest);
-
-  return {
-    count: nodaysold.length,
-    data: nodaysold
-  };
+export interface Ticket {
+    id: number;
+    title: string;
+    description: string;
+    createdAt: string;
+    priority: string;
+    status: string;
+}
+export const getAllTickets = (): {} => {
+    return {count: tickets.length, tickets: tickets};
 };
 
-export const getOneTicket = (id: number) => {
-  const ticket = tickets.find(t => t.id === id);
-  if (!ticket) return null;
+// export const getOneTicket = (id: number) => {
+//   const ticket = tickets.find(t => t.id === id);
+//   if (!ticket) return null;
 
-  const { daysOld, ...rest } = ticket;
-  return rest;
-};
+//   const { daysOld, ...rest } = ticket;
+//   return rest;
+// };
 
 export const createNewTicket = (id: number, 
     title: string, 
@@ -125,3 +112,39 @@ export const updateTicketById = (id: number,
 export const deleteTicket = (id: number): string => {
     return `Deleted Ticket: ${id}`;
 };
+
+// export function calculateUrgency(ticket: Ticket): any {
+//     let id = ticket.id
+//     let title = ticket.title
+//     let createdAt = ticket.createdAt
+//     let priority = ticket.priority
+//     let status = ticket.status
+//     let ticketAge = ticket.daysOld
+//     let urgencyLevel;
+
+//     const urgencyScore = 
+
+//     switch (true) {
+//         case popularityScore >= 50:
+//             popularityTier = "Hot."
+//             break
+//         case popularityScore >= 30:
+//             popularityTier = "Popular."
+//             break
+//         case popularityScore >= 20:
+//             popularityTier = "Moderate."
+//             break
+//         case popularityScore >= 10:
+//             popularityTier = "Building."
+//             break
+//     }
+
+//     return {
+//         id,
+//         title,
+//         priority,
+//         status,
+//         createdAt,
+//         ticketAge
+//     };
+// }
