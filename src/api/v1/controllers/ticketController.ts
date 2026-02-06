@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { HTTP_STATUS } from "../../../constants/httpConstants";
 import * as ticketService from "../servaces/ticketService";
-import { getAllTickets, getOneTicket, createNewTicket, Ticket} from "../servaces/ticketService";
+import { getAllTickets, getOneTicket, createNewTicket, Ticket, calculateUrgency, tickets} from "../servaces/ticketService";
 
 export const healthData = (req: Request, res: Response) => {
     res.status(HTTP_STATUS.OK).json({
@@ -37,6 +37,27 @@ export const createTicket = (req: Request, res: Response) => {
   let newTicket = req.body
   let result = createNewTicket(newTicket)
   res.status(HTTP_STATUS.OK).json(result);
+};
+
+export const ticketUrgencyById = (req: Request, res: Response): void => {
+    const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({
+            message: `Invalid event ID: ${req.params.id}`
+        });
+    } else {
+        const ticket = tickets.find(e => e.id === id);
+
+        if (!ticket) {
+            res.status(HTTP_STATUS.NOT_FOUND).json({
+                message: `Event with ID ${id} not found`
+            });
+        } else {
+            const result = calculateUrgency(ticket);
+            res.status(HTTP_STATUS.OK).json({ message: "Ticket urgency calculated", data: result });
+        }
+    }
 };
 
 export const updateTicket = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

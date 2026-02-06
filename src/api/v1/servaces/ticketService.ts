@@ -65,7 +65,7 @@ export interface Ticket {
     description: string;
     createdAt: string;
     priority: string;
-    status: string;
+    status: string
 }
 export const getAllTickets = (): {} => {
     return {count: tickets.length, tickets: tickets};
@@ -102,7 +102,7 @@ export const updateTicketById = async (
 
 export const deleteTicket = async (id: string): Promise<void> => {
     const index = tickets.findIndex(ticket => ticket.id === Number(id));
-    
+
     if (index === -1) {
         throw new Error(`Item with ID ${id} not found`);
     }
@@ -110,3 +110,67 @@ export const deleteTicket = async (id: string): Promise<void> => {
     tickets.splice(index, 1);
 };
 
+export function calculateUrgency(ticket: Ticket): any {
+    let id = ticket.id;
+    let title = ticket.title;
+    let description = ticket.description;
+    let createdAt = ticket.createdAt;
+    let priority = ticket.priority;
+    let status = ticket.status;
+    let urgencyScore;
+    let urgencyLevel;
+
+    const PRIORITY_BASE = {
+        low: 10,
+        medium: 20,
+        high: 30,
+        critical: 50
+    } as const;
+
+    const baseScore = PRIORITY_BASE[priority as keyof typeof PRIORITY_BASE];
+
+    const referenceDate = new Date("2025-01-15T00:00:00.000Z");
+    const created = new Date(createdAt);
+    const diffMs = referenceDate.getTime() - created.getTime();
+    const ticketAge = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+    urgencyScore = baseScore + ticketAge * 5;
+
+    if (status === "resolved") {
+        urgencyScore = 0;
+    }
+
+    switch (true) {
+        case urgencyScore === 0:
+            urgencyLevel = "Minimal. Ticket resolved.";
+            break;
+
+        case urgencyScore >= 80:
+            urgencyLevel = "Critical. Immediate attention required.";
+            break;
+
+        case urgencyScore >= 55:
+            urgencyLevel = "High Urgency. Prioritize resolution.";
+            break;
+
+        case urgencyScore >= 30:
+            urgencyLevel = "Moderate. Schedual for attention.";
+            break;
+
+        case urgencyScore >= 25:
+            urgencyLevel = "Low Urgency. Address when capacity allows.";
+            break;
+    }
+
+    return {
+        id,
+        title,
+        description,
+        createdAt,
+        priority,
+        status,
+        ticketAge,
+        urgencyScore,
+        urgencyLevel
+    };
+}
